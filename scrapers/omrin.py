@@ -1,15 +1,15 @@
-import os
 import json
+import os
 import re
 from datetime import datetime, timezone
 from pathlib import Path
 
-import requests
 import pdfplumber
+import requests
 
 
 # ============================================================
-# CONFIG
+# CONFIGURATIE
 # ============================================================
 
 ZIPCODE = os.getenv("OMRIN_ZIPCODE", "9251 LZ")
@@ -17,10 +17,23 @@ HOUSE_NUMBER = os.getenv("OMRIN_HOUSENUMBER", "27")
 ADDITION = os.getenv("OMRIN_ADDITION", "a")
 YEAR = int(os.getenv("OMRIN_YEAR", "2026"))
 
-OUTPUT_DIR = Path("data")
-OUTPUT_FILE = OUTPUT_DIR / "afvalkalender.json"
+PDF_URL = (
+    "https://www.omrin.nl/api/CalendarPdf"
+    f"?zipCode={ZIPCODE.replace(' ', '%20')}"
+    f"&houseNumber={HOUSE_NUMBER}"
+    f"&addition={ADDITION}"
+    f"&year={YEAR}"
+)
+
 PDF_FILE = Path("/tmp/omrin_calendar.pdf")
 
+OUTPUT_DIR = Path("data")
+OUTPUT_FILE = OUTPUT_DIR / "afvalkalender.json"
+
+
+# ============================================================
+# MAANDEN
+# ============================================================
 
 MONTHS = {
     "JAN": 1,
@@ -29,18 +42,39 @@ MONTHS = {
     "APR": 4,
     "MEI": 5,
     "JUN": 6,
-    "JULI": 7,
+    "JUNI": 6,
     "JUL": 7,
+    "JULI": 7,
     "AUG": 8,
-    "SEPT": 9,
     "SEP": 9,
+    "SEPT": 9,
     "OKT": 10,
     "NOV": 11,
     "DEC": 12,
 }
 
 
-CATEGORY_NAMES = {
+MONTH_NAMES = {
+    1: "januari",
+    2: "februari",
+    3: "maart",
+    4: "april",
+    5: "mei",
+    6: "juni",
+    7: "juli",
+    8: "augustus",
+    9: "september",
+    10: "oktober",
+    11: "november",
+    12: "december",
+}
+
+
+# ============================================================
+# AFVALCATEGORIEËN
+# ============================================================
+
+CATEGORIES = {
     "Sortibak": "sortibak",
     "Biobak": "biobak",
     "Oud papier en karton": "oud_papier",
@@ -50,31 +84,25 @@ CATEGORY_NAMES = {
 
 
 # ============================================================
-# URL
-# ============================================================
-
-def build_url():
-    return (
-        "https://www.omrin.nl/api/CalendarPdf"
-        f"?zipCode={ZIPCODE.replace(' ', '%20')}"
-        f"&houseNumber={HOUSE_NUMBER}"
-        f"&addition={ADDITION}"
-        f"&year={YEAR}"
-    )
-
-
-# ============================================================
-# PDF DOWNLOAD
+# PDF DOWNLOADEN
 # ============================================================
 
 def download_pdf():
 
-    url = build_url()
+    print("=" * 60)
+    print("OMRIN AFVALKALENDER")
+    print("=" * 60)
 
-    print(f"Downloaden: {url}")
+    print(f"Postcode:     {ZIPCODE}")
+    print(f"Huisnummer:   {HOUSE_NUMBER}")
+    print(f"Toevoeging:   {ADDITION}")
+    print(f"Jaar:         {YEAR}")
+    print()
+
+    print(f"Downloaden: {PDF_URL}")
 
     response = requests.get(
-        url,
+        PDF_URL,
         timeout=60,
         headers={
             "User-Agent": (
@@ -100,10 +128,10 @@ def download_pdf():
 
 
 # ============================================================
-# TEXT HELPERS
+# TEKST NORMALISEREN
 # ============================================================
 
-def normalize_text(value):
+def clean_text(value):
 
     if value is None:
         return ""
@@ -115,122 +143,237 @@ def normalize_text(value):
     ).strip()
 
 
-def normalize_category(value):
+# ============================================================
+# MAAND HERKENNEN
+# ============================================================
 
-    value = normalize_text(value)
+def get_month(text):
 
-    return CATEGORY_NAMES.get(
-        value
-    )
+    text = clean_text(text).upper()
 
+    # Exact
+    if text in MONTHS:
+        return MONTHS[text]
 
-def is_day(value):
+    # Sommige PDF-fonts splitsen woorden op of geven
+    # bijvoorbeeld JUNI als JUN.
+    for name, month in MONTHS.items():
 
-    if value is None:
-        return False
+        if text.startswith(name):
+            return month
 
-    value = normalize_text(value)
-
-    return re.fullmatch(
-        r"\d{1,2}\*?",
-        value
-    ) is not None
-
-
-def parse_day(value):
-
-    value = normalize_text(value)
-
-    match = re.match(
-        r"(\d{1,2})(\*)?",
-        value
-    )
-
-    if not match:
-        return None, False
-
-    day = int(match.group(1))
-    changed = bool(match.group(2))
-
-    if day < 1 or day > 31:
-        return None, changed
-
-    return day, changed
+    return None
 
 
 # ============================================================
-# MONTH COLUMNS
+# DAG HERKENNEN
+# ============================================================
+
+def parse_day(text):
+
+    text = clean_text(text)
+
+    # Bijvoorbeeld:
+    #
+    # 02
+    # 02*
+    # 28*
+    #
+    match = re.fullmatch(
+        r"(\d{1,2})(\*)?",
+        text
+    )
+
+    if not match:
+        return None
+
+    day = int(match.group(1))
+
+    if day < 1 or day > 31:
+        return None
+
+    return {
+        "day": day,
+        "changed": bool(match.group(2)),
+    }
+
+
+# ============================================================
+# DATUM MAKEN
+# ============================================================
+
+def make_date(month, day):
+
+    try:
+
+        date = datetime(
+            YEAR,
+            month,
+            day
+        )
+
+        return date.strftime("%Y-%m-%d")
+
+    except ValueError:
+
+        return None
+
+
+# ============================================================
+# MAANDKOPPEN VINDEN
 # ============================================================
 
 def find_month_columns(words):
 
     """
-    Zoek de X-positie van de maanden bovenaan de kalender.
+    De maandheader staat bovenaan de kalender:
 
-    Hierdoor zijn we niet afhankelijk van de tabelstructuur
-    die Omrin in de PDF gebruikt.
+    JAN FEB MRT APR MEI JUNI JULI AUG SEPT OKT NOV DEC
+
+    We bepalen de X-positie van iedere maand.
+
+    JUNI/JULI kunnen door pdfplumber anders worden
+    geïnterpreteerd, daarom wordt de positie op basis
+    van de andere maanden gecontroleerd.
     """
 
-    months = {}
+    found = {}
 
     for word in words:
 
-        text = normalize_text(
+        text = clean_text(
             word.get("text")
         ).upper()
 
-        if text not in MONTHS:
+        month = get_month(text)
+
+        if month is None:
             continue
 
-        month = MONTHS[text]
+        x0 = float(word["x0"])
+        x1 = float(word["x1"])
 
-        x = (
-            float(word["x0"])
-            + float(word["x1"])
-        ) / 2
+        center = (x0 + x1) / 2
 
-        months[month] = x
+        found[month] = center
 
-    return months
+    print()
+    print("Maandkolommen gevonden:")
+
+    for month in sorted(found):
+
+        print(
+            f"  {month:02d} "
+            f"{MONTH_NAMES[month]:<10} "
+            f"x={found[month]:.2f}"
+        )
+
+    # --------------------------------------------------------
+    # Controle
+    # --------------------------------------------------------
+
+    if len(found) == 12:
+
+        return found
+
+    # --------------------------------------------------------
+    # Als een maand ontbreekt, reconstrueren we deze.
+    #
+    # De kalender gebruikt een vaste kolombreedte.
+    # --------------------------------------------------------
+
+    if len(found) < 2:
+
+        raise RuntimeError(
+            "Te weinig maandkolommen gevonden."
+        )
+
+    known = sorted(found.keys())
+
+    distances = []
+
+    for i in range(len(known) - 1):
+
+        m1 = known[i]
+        m2 = known[i + 1]
+
+        distance = (
+            found[m2] - found[m1]
+        ) / (m2 - m1)
+
+        distances.append(distance)
+
+    column_width = sum(distances) / len(distances)
+
+    print(
+        f"Gemiddelde kolombreedte: "
+        f"{column_width:.2f}"
+    )
+
+    # Ontbrekende maanden invullen
+    for month in range(1, 13):
+
+        if month in found:
+            continue
+
+        nearest = min(
+            known,
+            key=lambda m: abs(m - month)
+        )
+
+        found[month] = (
+            found[nearest]
+            + (
+                month - nearest
+            ) * column_width
+        )
+
+        print(
+            f"  {month:02d} "
+            f"{MONTH_NAMES[month]:<10} "
+            f"gereconstrueerd "
+            f"x={found[month]:.2f}"
+        )
+
+    return found
 
 
 # ============================================================
-# CATEGORY POSITIONS
+# CATEGORIEËN VINDEN
 # ============================================================
 
-def find_category_words(words):
+def find_categories(words):
 
-    categories = []
+    result = []
 
     for index, word in enumerate(words):
 
-        text = normalize_text(
+        text = clean_text(
             word.get("text")
         )
 
-        if text in CATEGORY_NAMES:
-            categories.append({
-                "index": index,
-                "category": text,
-                "normalized": CATEGORY_NAMES[text],
-                "x": (
-                    float(word["x0"])
-                    + float(word["x1"])
-                ) / 2,
-                "top": float(word["top"]),
-            })
+        if text not in CATEGORIES:
+            continue
 
-    return categories
+        result.append({
+            "index": index,
+            "name": text,
+            "key": CATEGORIES[text],
+            "x": (
+                float(word["x0"])
+                + float(word["x1"])
+            ) / 2,
+            "top": float(word["top"]),
+        })
+
+    return result
 
 
 # ============================================================
-# NEAREST MONTH
+# AFSTAND TUSSEN X-POSITIES
 # ============================================================
 
 def nearest_month(x, month_columns):
-
-    if not month_columns:
-        return None
 
     return min(
         month_columns.keys(),
@@ -241,45 +384,160 @@ def nearest_month(x, month_columns):
 
 
 # ============================================================
-# DATE VALIDATION
+# WOORDEN BINNEN EEN CATEGORIEBLOK
 # ============================================================
 
-def make_date(month, day):
+def get_category_words(
+    words,
+    category,
+    next_category_top=None,
+):
+    """
+    Haal alleen de tekstobjecten op die verticaal
+    binnen deze categorie vallen.
 
-    try:
+    Hierdoor worden bijvoorbeeld de datums van
+    Biobak niet bij Sortibak geplaatst.
+    """
 
-        return datetime(
-            YEAR,
+    start_top = category["top"]
+
+    result = []
+
+    for word in words:
+
+        top = float(word["top"])
+
+        if top <= start_top:
+            continue
+
+        if next_category_top is not None:
+            if top >= next_category_top:
+                continue
+
+        result.append(word)
+
+    return result
+
+
+# ============================================================
+# DATUMS EXTRACTEREN
+# ============================================================
+
+def extract_category_dates(
+    words,
+    category,
+    month_columns,
+    next_category_top=None,
+):
+    """
+    Verwerkt één afvalcategorie.
+
+    Iedere dag wordt gekoppeld aan de maand waarvan
+    de X-positie het dichtst bij de dag ligt.
+    """
+
+    category_words = get_category_words(
+        words,
+        category,
+        next_category_top
+    )
+
+    dates = []
+
+    for word in category_words:
+
+        text = clean_text(
+            word.get("text")
+        )
+
+        day_info = parse_day(text)
+
+        if day_info is None:
+            continue
+
+        x = (
+            float(word["x0"])
+            + float(word["x1"])
+        ) / 2
+
+        month = nearest_month(
+            x,
+            month_columns
+        )
+
+        day = day_info["day"]
+
+        date = make_date(
             month,
             day
-        ).strftime("%Y-%m-%d")
+        )
 
-    except ValueError:
+        if date is None:
+            continue
 
-        return None
+        dates.append({
+            "date": date,
+            "day": day,
+            "month": month,
+            "month_name": MONTH_NAMES[month],
+            "changed": day_info["changed"],
+        })
+
+    return dates
 
 
 # ============================================================
-# EXTRACT CALENDAR
+# DUBBELE DATUMS VERWIJDEREN
 # ============================================================
 
-def extract_calendar():
+def remove_duplicates(items):
 
-    result = {
-        category: []
-        for category in CATEGORY_NAMES.values()
-    }
+    unique = {}
+
+    for item in items:
+
+        key = (
+            item["date"],
+            item["changed"],
+        )
+
+        unique[key] = item
+
+    result = list(
+        unique.values()
+    )
+
+    result.sort(
+        key=lambda item: item["date"]
+    )
+
+    return result
+
+
+# ============================================================
+# KALENDER PARSEN
+# ============================================================
+
+def parse_calendar():
 
     with pdfplumber.open(PDF_FILE) as pdf:
 
-        # Alleen pagina 1 bevat de kalender.
+        if len(pdf.pages) == 0:
+
+            raise RuntimeError(
+                "De PDF bevat geen pagina's."
+            )
+
+        # De kalender staat op pagina 1.
         page = pdf.pages[0]
 
         words = page.extract_words(
             keep_blank_chars=False,
-            use_text_flow=False
+            use_text_flow=False,
         )
 
+        print()
         print(
             f"{len(words)} tekstobjecten gevonden"
         )
@@ -292,214 +550,170 @@ def extract_calendar():
             words
         )
 
-        print()
-        print("Maandkolommen:")
-
-        for month, x in sorted(
-            month_columns.items()
-        ):
-            print(
-                f"  {month:02d}: x={x:.2f}"
-            )
-
-        if len(month_columns) < 12:
-
-            raise RuntimeError(
-                "Niet alle 12 maandkolommen "
-                "konden worden gevonden."
-            )
-
         # ----------------------------------------------------
         # CATEGORIEËN
         # ----------------------------------------------------
 
-        category_words = find_category_words(
+        categories = find_categories(
             words
         )
 
         print()
         print(
-            f"{len(category_words)} "
-            "categorie-labels gevonden"
+            f"{len(categories)} "
+            "categorie-labels gevonden:"
+        )
+
+        for category in categories:
+
+            print(
+                f"  {category['name']} "
+                f"top={category['top']:.2f} "
+                f"x={category['x']:.2f}"
+            )
+
+        # ----------------------------------------------------
+        # We willen de eerste volledige kalendersectie.
+        #
+        # De PDF bevat bepaalde standaardblokken meerdere
+        # keren omdat Omrin meerdere informatieblokken
+        # op dezelfde pagina gebruikt.
+        #
+        # De eerste echte categorievolgorde is:
+        #
+        # Sortibak
+        # Biobak
+        # Oud papier en karton
+        # Chemisch afval
+        # Takken en snoeiafval
+        #
+        # We nemen de eerste keer dat iedere categorie
+        # voorkomt.
+        # ----------------------------------------------------
+
+        first_categories = {}
+
+        for category in categories:
+
+            key = category["key"]
+
+            if key not in first_categories:
+
+                first_categories[key] = category
+
+        # ----------------------------------------------------
+        # Resultaat
+        # ----------------------------------------------------
+
+        result = {
+            key: []
+            for key in CATEGORIES.values()
+        }
+
+        # Sorteer categorieën op verticale positie.
+        ordered = sorted(
+            first_categories.values(),
+            key=lambda item: item["top"]
         )
 
         # ----------------------------------------------------
-        # PER CATEGORIE
+        # Iedere categorie verwerken
         # ----------------------------------------------------
 
-        for category_info in category_words:
+        for index, category in enumerate(ordered):
 
-            category = category_info["normalized"]
+            next_category_top = None
 
-            category_x = category_info["x"]
-            category_top = category_info["top"]
+            if index + 1 < len(ordered):
 
-            # Zoek alle dagwaarden die:
-            #
-            # 1. onder het categorie-label staan
-            # 2. ongeveer dezelfde horizontale tabel gebruiken
-            #
-            # We beperken de verticale range om te voorkomen
-            # dat de volgende afvalcategorie wordt meegenomen.
-
-            candidates = []
-
-            for word in words:
-
-                top = float(
-                    word["top"]
+                next_category_top = (
+                    ordered[index + 1]["top"]
                 )
 
-                if top <= category_top:
-                    continue
+            print()
+            print(
+                f"Verwerken: "
+                f"{category['name']}"
+            )
 
-                text = normalize_text(
-                    word.get("text")
-                )
+            dates = extract_category_dates(
+                words,
+                category,
+                month_columns,
+                next_category_top,
+            )
 
-                if not is_day(text):
-                    continue
+            dates = remove_duplicates(
+                dates
+            )
 
-                x = (
-                    float(word["x0"])
-                    + float(word["x1"])
-                ) / 2
+            result[
+                category["key"]
+            ] = dates
 
-                candidates.append({
-                    "text": text,
-                    "x": x,
-                    "top": top,
-                })
-
-            # ------------------------------------------------
-            # STOP BIJ VOLGENDE CATEGORIE
-            # ------------------------------------------------
-
-            next_categories = [
-                c["top"]
-                for c in category_words
-                if c["top"] > category_top
-            ]
-
-            if next_categories:
-
-                next_category_top = min(
-                    next_categories
-                )
-
-                candidates = [
-                    c
-                    for c in candidates
-                    if c["top"] < next_category_top
-                ]
-
-            # ------------------------------------------------
-            # DATUMS KOPPELEN AAN MAAND
-            # ------------------------------------------------
-
-            for candidate in candidates:
-
-                day, changed = parse_day(
-                    candidate["text"]
-                )
-
-                if day is None:
-                    continue
-
-                month = nearest_month(
-                    candidate["x"],
-                    month_columns
-                )
-
-                if month is None:
-                    continue
-
-                date = make_date(
-                    month,
-                    day
-                )
-
-                if date is None:
-                    continue
-
-                result[category].append({
-                    "date": date,
-                    "day": day,
-                    "month": month,
-                    "changed": changed,
-                })
+            print(
+                f"  {len(dates)} datums gevonden"
+            )
 
     return result
 
 
 # ============================================================
-# DUPLICATES
+# VALIDATIE
 # ============================================================
 
-def remove_duplicates(data):
-
-    for category in data:
-
-        unique = {}
-
-        for item in data[category]:
-
-            key = (
-                item["date"],
-                item["changed"]
-            )
-
-            unique[key] = item
-
-        data[category] = list(
-            unique.values()
-        )
-
-        data[category].sort(
-            key=lambda item: item["date"]
-        )
-
-    return data
-
-
-# ============================================================
-# VALIDATE
-# ============================================================
-
-def validate_data(data):
+def validate_calendar(data):
 
     total = sum(
-        len(values)
-        for values in data.values()
+        len(items)
+        for items in data.values()
     )
 
     print()
     print("=" * 60)
-    print("RESULTAAT")
+    print("VALIDATIE")
     print("=" * 60)
 
-    for category, dates in data.items():
+    for category, items in data.items():
 
         print(
-            f"{category:25} "
-            f"{len(dates):3} ophaaldagen"
+            f"{category:<25} "
+            f"{len(items):>3} datums"
         )
 
     print("-" * 60)
+
     print(
-        f"Totaal: {total} ophaaldagen"
+        f"Totaal: {total} datums"
     )
 
     if total == 0:
 
         raise RuntimeError(
-            "Er zijn 0 ophaaldagen gevonden. "
-            "De PDF-layout is mogelijk gewijzigd."
+            "Er zijn helemaal geen afvaldatums gevonden."
         )
+
+    # De drie belangrijkste categorieën moeten
+    # minimaal één datum bevatten.
+
+    required = [
+        "sortibak",
+        "biobak",
+        "oud_papier",
+    ]
+
+    for category in required:
+
+        if not data.get(category):
+
+            raise RuntimeError(
+                f"Geen datums gevonden voor "
+                f"{category}."
+            )
 
 
 # ============================================================
-# JSON
+# JSON OPSLAAN
 # ============================================================
 
 def save_json(data):
@@ -510,7 +724,7 @@ def save_json(data):
     )
 
     output = {
-        "source": build_url(),
+        "source": PDF_URL,
 
         "year": YEAR,
 
@@ -546,42 +760,58 @@ def save_json(data):
 
 
 # ============================================================
+# OVERZICHT AFDRUKKEN
+# ============================================================
+
+def print_calendar(data):
+
+    print()
+    print("=" * 60)
+    print("AFVALKALENDER")
+    print("=" * 60)
+
+    for category, dates in data.items():
+
+        print()
+        print(
+            f"[{category}]"
+        )
+
+        for item in dates:
+
+            marker = " *" if item["changed"] else ""
+
+            print(
+                f"  {item['date']} "
+                f"({item['month_name']})"
+                f"{marker}"
+            )
+
+
+# ============================================================
 # MAIN
 # ============================================================
 
 def main():
 
-    print("=" * 60)
-    print("OMRIN AFVALKALENDER")
-    print("=" * 60)
-
-    print(
-        f"Postcode:     {ZIPCODE}"
-    )
-
-    print(
-        f"Huisnummer:   {HOUSE_NUMBER}"
-    )
-
-    print(
-        f"Toevoeging:   {ADDITION}"
-    )
-
-    print(
-        f"Jaar:         {YEAR}"
-    )
+    download_pdf()
 
     print()
 
-    download_pdf()
+    data = parse_calendar()
 
-    data = extract_calendar()
+    data = {
+        category: remove_duplicates(
+            dates
+        )
+        for category, dates in data.items()
+    }
 
-    data = remove_duplicates(
+    validate_calendar(
         data
     )
 
-    validate_data(
+    print_calendar(
         data
     )
 
@@ -590,7 +820,9 @@ def main():
     )
 
     print()
-    print("Klaar!")
+    print("=" * 60)
+    print("KLAAR")
+    print("=" * 60)
 
 
 if __name__ == "__main__":
