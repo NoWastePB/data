@@ -1,11 +1,1084 @@
 {
-  "source": "https://www.omrin.nl/api/CalendarPdf?zipCode=9251%20LZ&houseNumber=27&addition=a&year=2026",
+  "source": "https://www.omrin.nl/api/CalendarPdf?zipCode=9251+LZ&houseNumber=27&addition=a&year=2026",
   "year": 2026,
   "address": {
     "zipcode": "9251 LZ",
     "house_number": "27",
     "addition": "a"
   },
-  "updated_at": "2026-10-05T16:43:40.741746Z",
-  "collections": {}
+  "updated_at": "2026-10-05T17:10:48.923198+00:00",
+  "collections": {
+    "sortibak": [
+      {
+        "date": "2026-01-02",
+        "day": 2,
+        "month": 1,
+        "month_name": "januari",
+        "weekday": "friday",
+        "changed": true
+      },
+      {
+        "date": "2026-01-22",
+        "day": 22,
+        "month": 1,
+        "month_name": "januari",
+        "weekday": "thursday",
+        "changed": false
+      },
+      {
+        "date": "2026-02-12",
+        "day": 12,
+        "month": 2,
+        "month_name": "februari",
+        "weekday": "thursday",
+        "changed": false
+      },
+      {
+        "date": "2026-03-05",
+        "day": 5,
+        "month": 3,
+        "month_name": "maart",
+        "weekday": "thursday",
+        "changed": false
+      },
+      {
+        "date": "2026-03-26",
+        "day": 26,
+        "month": 3,
+        "month_name": "maart",
+        "weekday": "thursday",
+        "changed": false
+      },
+      {
+        "date": "2026-04-16",
+        "day": 16,
+        "month": 4,
+        "month_name": "april",
+        "weekday": "thursday",
+        "changed": false
+      },
+      {
+        "date": "2026-05-08",
+        "day": 8,
+        "month": 5,
+        "month_name": "mei",
+        "weekday": "friday",
+        "changed": true
+      },
+      {
+        "date": "2026-05-29",
+        "day": 29,
+        "month": 5,
+        "month_name": "mei",
+        "weekday": "friday",
+        "changed": true
+      },
+      {
+        "date": "2026-06-18",
+        "day": 18,
+        "month": 6,
+        "month_name": "juni",
+        "weekday": "thursday",
+        "changed": false
+      },
+      {
+        "date": "2026-07-09",
+        "day": 9,
+        "month": 7,
+        "month_name": "juli",
+        "weekday": "thursday",
+        "changed": false
+      },
+      {
+        "date": "2026-07-30",
+        "day": 30,
+        "month": 7,
+        "month_name": "juli",
+        "weekday": "thursday",
+        "changed": false
+      },
+      {
+        "date": "2026-08-20",
+        "day": 20,
+        "month": 8,
+        "month_name": "augustus",
+        "weekday": "thursday",
+        "changed": false
+      },
+      {
+        "date": "2026-09-10",
+        "day": 10,
+        "month": 9,
+        "month_name": "september",
+        "weekday": "thursday",
+        "changed": false
+      },
+      {
+        "date": "2026-10-01",
+        "day": 1,
+        "month": 10,
+        "month_name": "oktober",
+        "weekday": "thursday",
+        "changed": false
+      },
+      {
+        "date": "2026-10-22",
+        "day": 22,
+        "month": 10,
+        "month_name": "oktober",
+        "weekday": "thursday",
+        "changed": false
+      },
+      {
+        "date": "2026-11-12",
+        "day": 12,
+        "month": 11,
+        "month_name": "november",
+        "weekday": "thursday",
+        "changed": false
+      },
+      {
+        "date": "2026-12-03",
+        "day": 3,
+        "month": 12,
+        "month_name": "december",
+        "weekday": "thursday",
+        "changed": false
+      },
+      {
+        "date": "2026-12-24",
+        "day": 24,
+        "month": 12,
+        "month_name": "december",
+        "weekday": "thursday",
+        "changed": false
+      }
+    ],
+    "biobak": [
+      {
+        "date": "2026-01-05",
+        "day": 5,
+        "month": 1,
+        "month_name": "januari",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-01-19",
+        "day": 19,
+        "month": 1,
+        "month_name": "januari",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-02-02",
+        "day": 2,
+        "month": 2,
+        "month_name": "februari",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-02-16",
+        "day": 16,
+        "month": 2,
+        "month_name": "februari",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-03-02",
+        "day": 2,
+        "month": 3,
+        "month_name": "maart",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-03-09",
+        "day": 9,
+        "month": 3,
+        "month_name": "maart",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-03-16",
+        "day": 16,
+        "month": 3,
+        "month_name": "maart",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-03-23",
+        "day": 23,
+        "month": 3,
+        "month_name": "maart",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-03-30",
+        "day": 30,
+        "month": 3,
+        "month_name": "maart",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-04-07",
+        "day": 7,
+        "month": 4,
+        "month_name": "april",
+        "weekday": "tuesday",
+        "changed": true
+      },
+      {
+        "date": "2026-04-13",
+        "day": 13,
+        "month": 4,
+        "month_name": "april",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-04-20",
+        "day": 20,
+        "month": 4,
+        "month_name": "april",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-04-28",
+        "day": 28,
+        "month": 4,
+        "month_name": "april",
+        "weekday": "tuesday",
+        "changed": true
+      },
+      {
+        "date": "2026-05-04",
+        "day": 4,
+        "month": 5,
+        "month_name": "mei",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-05-11",
+        "day": 11,
+        "month": 5,
+        "month_name": "mei",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-05-18",
+        "day": 18,
+        "month": 5,
+        "month_name": "mei",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-05-26",
+        "day": 26,
+        "month": 5,
+        "month_name": "mei",
+        "weekday": "tuesday",
+        "changed": true
+      },
+      {
+        "date": "2026-06-01",
+        "day": 1,
+        "month": 6,
+        "month_name": "juni",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-06-08",
+        "day": 8,
+        "month": 6,
+        "month_name": "juni",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-06-15",
+        "day": 15,
+        "month": 6,
+        "month_name": "juni",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-06-22",
+        "day": 22,
+        "month": 6,
+        "month_name": "juni",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-06-29",
+        "day": 29,
+        "month": 6,
+        "month_name": "juni",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-07-06",
+        "day": 6,
+        "month": 7,
+        "month_name": "juli",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-07-13",
+        "day": 13,
+        "month": 7,
+        "month_name": "juli",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-07-20",
+        "day": 20,
+        "month": 7,
+        "month_name": "juli",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-07-27",
+        "day": 27,
+        "month": 7,
+        "month_name": "juli",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-08-03",
+        "day": 3,
+        "month": 8,
+        "month_name": "augustus",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-08-10",
+        "day": 10,
+        "month": 8,
+        "month_name": "augustus",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-08-17",
+        "day": 17,
+        "month": 8,
+        "month_name": "augustus",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-08-24",
+        "day": 24,
+        "month": 8,
+        "month_name": "augustus",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-08-31",
+        "day": 31,
+        "month": 8,
+        "month_name": "augustus",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-09-07",
+        "day": 7,
+        "month": 9,
+        "month_name": "september",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-09-14",
+        "day": 14,
+        "month": 9,
+        "month_name": "september",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-09-21",
+        "day": 21,
+        "month": 9,
+        "month_name": "september",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-09-28",
+        "day": 28,
+        "month": 9,
+        "month_name": "september",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-10-05",
+        "day": 5,
+        "month": 10,
+        "month_name": "oktober",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-10-12",
+        "day": 12,
+        "month": 10,
+        "month_name": "oktober",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-10-19",
+        "day": 19,
+        "month": 10,
+        "month_name": "oktober",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-10-26",
+        "day": 26,
+        "month": 10,
+        "month_name": "oktober",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-11-02",
+        "day": 2,
+        "month": 11,
+        "month_name": "november",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-11-09",
+        "day": 9,
+        "month": 11,
+        "month_name": "november",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-11-16",
+        "day": 16,
+        "month": 11,
+        "month_name": "november",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-11-23",
+        "day": 23,
+        "month": 11,
+        "month_name": "november",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-11-30",
+        "day": 30,
+        "month": 11,
+        "month_name": "november",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-12-14",
+        "day": 14,
+        "month": 12,
+        "month_name": "december",
+        "weekday": "monday",
+        "changed": false
+      },
+      {
+        "date": "2026-12-28",
+        "day": 28,
+        "month": 12,
+        "month_name": "december",
+        "weekday": "monday",
+        "changed": false
+      }
+    ],
+    "oud_papier": [
+      {
+        "date": "2026-01-24",
+        "day": 24,
+        "month": 1,
+        "month_name": "januari",
+        "weekday": "saturday",
+        "changed": false
+      },
+      {
+        "date": "2026-02-21",
+        "day": 21,
+        "month": 2,
+        "month_name": "februari",
+        "weekday": "saturday",
+        "changed": false
+      },
+      {
+        "date": "2026-03-21",
+        "day": 21,
+        "month": 3,
+        "month_name": "maart",
+        "weekday": "saturday",
+        "changed": false
+      },
+      {
+        "date": "2026-04-18",
+        "day": 18,
+        "month": 4,
+        "month_name": "april",
+        "weekday": "saturday",
+        "changed": false
+      },
+      {
+        "date": "2026-05-16",
+        "day": 16,
+        "month": 5,
+        "month_name": "mei",
+        "weekday": "saturday",
+        "changed": false
+      },
+      {
+        "date": "2026-06-13",
+        "day": 13,
+        "month": 6,
+        "month_name": "juni",
+        "weekday": "saturday",
+        "changed": false
+      },
+      {
+        "date": "2026-07-11",
+        "day": 11,
+        "month": 7,
+        "month_name": "juli",
+        "weekday": "saturday",
+        "changed": false
+      },
+      {
+        "date": "2026-08-08",
+        "day": 8,
+        "month": 8,
+        "month_name": "augustus",
+        "weekday": "saturday",
+        "changed": false
+      },
+      {
+        "date": "2026-09-05",
+        "day": 5,
+        "month": 9,
+        "month_name": "september",
+        "weekday": "saturday",
+        "changed": false
+      },
+      {
+        "date": "2026-10-03",
+        "day": 3,
+        "month": 10,
+        "month_name": "oktober",
+        "weekday": "saturday",
+        "changed": false
+      },
+      {
+        "date": "2026-10-31",
+        "day": 31,
+        "month": 10,
+        "month_name": "oktober",
+        "weekday": "saturday",
+        "changed": false
+      },
+      {
+        "date": "2026-11-28",
+        "day": 28,
+        "month": 11,
+        "month_name": "november",
+        "weekday": "saturday",
+        "changed": false
+      },
+      {
+        "date": "2026-12-19",
+        "day": 19,
+        "month": 12,
+        "month_name": "december",
+        "weekday": "saturday",
+        "changed": false
+      }
+    ],
+    "chemisch_afval": [
+      {
+        "date": "2026-01-07",
+        "day": 7,
+        "month": 1,
+        "month_name": "januari",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-01-14",
+        "day": 14,
+        "month": 1,
+        "month_name": "januari",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-01-21",
+        "day": 21,
+        "month": 1,
+        "month_name": "januari",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-01-28",
+        "day": 28,
+        "month": 1,
+        "month_name": "januari",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-02-04",
+        "day": 4,
+        "month": 2,
+        "month_name": "februari",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-02-11",
+        "day": 11,
+        "month": 2,
+        "month_name": "februari",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-02-14",
+        "day": 14,
+        "month": 2,
+        "month_name": "februari",
+        "weekday": "saturday",
+        "changed": true
+      },
+      {
+        "date": "2026-02-18",
+        "day": 18,
+        "month": 2,
+        "month_name": "februari",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-02-25",
+        "day": 25,
+        "month": 2,
+        "month_name": "februari",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-03-04",
+        "day": 4,
+        "month": 3,
+        "month_name": "maart",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-03-11",
+        "day": 11,
+        "month": 3,
+        "month_name": "maart",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-03-18",
+        "day": 18,
+        "month": 3,
+        "month_name": "maart",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-03-25",
+        "day": 25,
+        "month": 3,
+        "month_name": "maart",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-04-01",
+        "day": 1,
+        "month": 4,
+        "month_name": "april",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-04-08",
+        "day": 8,
+        "month": 4,
+        "month_name": "april",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-04-11",
+        "day": 11,
+        "month": 4,
+        "month_name": "april",
+        "weekday": "saturday",
+        "changed": true
+      },
+      {
+        "date": "2026-04-15",
+        "day": 15,
+        "month": 4,
+        "month_name": "april",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-04-22",
+        "day": 22,
+        "month": 4,
+        "month_name": "april",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-04-29",
+        "day": 29,
+        "month": 4,
+        "month_name": "april",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-05-06",
+        "day": 6,
+        "month": 5,
+        "month_name": "mei",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-05-13",
+        "day": 13,
+        "month": 5,
+        "month_name": "mei",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-05-20",
+        "day": 20,
+        "month": 5,
+        "month_name": "mei",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-05-27",
+        "day": 27,
+        "month": 5,
+        "month_name": "mei",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-06-03",
+        "day": 3,
+        "month": 6,
+        "month_name": "juni",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-06-10",
+        "day": 10,
+        "month": 6,
+        "month_name": "juni",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-06-17",
+        "day": 17,
+        "month": 6,
+        "month_name": "juni",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-06-24",
+        "day": 24,
+        "month": 6,
+        "month_name": "juni",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-07-01",
+        "day": 1,
+        "month": 7,
+        "month_name": "juli",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-07-08",
+        "day": 8,
+        "month": 7,
+        "month_name": "juli",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-07-15",
+        "day": 15,
+        "month": 7,
+        "month_name": "juli",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-07-22",
+        "day": 22,
+        "month": 7,
+        "month_name": "juli",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-07-29",
+        "day": 29,
+        "month": 7,
+        "month_name": "juli",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-08-05",
+        "day": 5,
+        "month": 8,
+        "month_name": "augustus",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-08-12",
+        "day": 12,
+        "month": 8,
+        "month_name": "augustus",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-08-19",
+        "day": 19,
+        "month": 8,
+        "month_name": "augustus",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-08-26",
+        "day": 26,
+        "month": 8,
+        "month_name": "augustus",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-09-02",
+        "day": 2,
+        "month": 9,
+        "month_name": "september",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-09-05",
+        "day": 5,
+        "month": 9,
+        "month_name": "september",
+        "weekday": "saturday",
+        "changed": true
+      },
+      {
+        "date": "2026-09-09",
+        "day": 9,
+        "month": 9,
+        "month_name": "september",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-09-16",
+        "day": 16,
+        "month": 9,
+        "month_name": "september",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-09-23",
+        "day": 23,
+        "month": 9,
+        "month_name": "september",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-09-30",
+        "day": 30,
+        "month": 9,
+        "month_name": "september",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-10-07",
+        "day": 7,
+        "month": 10,
+        "month_name": "oktober",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-10-14",
+        "day": 14,
+        "month": 10,
+        "month_name": "oktober",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-10-21",
+        "day": 21,
+        "month": 10,
+        "month_name": "oktober",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-10-28",
+        "day": 28,
+        "month": 10,
+        "month_name": "oktober",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-11-04",
+        "day": 4,
+        "month": 11,
+        "month_name": "november",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-11-11",
+        "day": 11,
+        "month": 11,
+        "month_name": "november",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-11-18",
+        "day": 18,
+        "month": 11,
+        "month_name": "november",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-11-21",
+        "day": 21,
+        "month": 11,
+        "month_name": "november",
+        "weekday": "saturday",
+        "changed": true
+      },
+      {
+        "date": "2026-11-25",
+        "day": 25,
+        "month": 11,
+        "month_name": "november",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-12-02",
+        "day": 2,
+        "month": 12,
+        "month_name": "december",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-12-09",
+        "day": 9,
+        "month": 12,
+        "month_name": "december",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-12-16",
+        "day": 16,
+        "month": 12,
+        "month_name": "december",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-12-23",
+        "day": 23,
+        "month": 12,
+        "month_name": "december",
+        "weekday": "wednesday",
+        "changed": false
+      },
+      {
+        "date": "2026-12-30",
+        "day": 30,
+        "month": 12,
+        "month_name": "december",
+        "weekday": "wednesday",
+        "changed": false
+      }
+    ]
+  }
 }
