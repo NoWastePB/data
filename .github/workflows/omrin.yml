@@ -17,7 +17,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install requests pypdf
-      - run: python omrin_afvalkalender.py
+      - run: python scrapers/omrin_afvalkalender.py
       - name: Commit als er iets veranderd is
         run: |
           git config user.name "github-actions[bot]"
