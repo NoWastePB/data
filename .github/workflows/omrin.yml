@@ -2,8 +2,7 @@ name: Omrin afvalkalender ophalen
 
 on:
   schedule:
-    # Iedere dag om 05:00 UTC = 07:00 Nederlandse tijd in de zomer
-    - cron: "0 1 * * *"
+    - cron: "0 5 * * *"
 
   workflow_dispatch:
 
@@ -12,9 +11,11 @@ permissions:
 
 jobs:
   scrape-omrin:
+
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Repository ophalen
         uses: actions/checkout@v4
 
@@ -30,17 +31,17 @@ jobs:
 
       - name: Omrin kalender ophalen
         env:
-          OMrin_ZIPCODE: "9251 LZ"
-          OMrin_HOUSENUMBER: "27"
-          OMrin_ADDITION: "a"
-          OMrin_YEAR: "2026"
+          OMRIN_ZIPCODE: "9251 LZ"
+          OMRIN_HOUSENUMBER: "27"
+          OMRIN_ADDITION: "a"
+          OMRIN_YEAR: "2026"
         run: |
           python scrapers/omrin.py
 
-      - name: Gewijzigde bestanden controleren
+      - name: Controleren op wijzigingen
         id: changes
         run: |
-          if git diff --quiet; then
+          if git diff --quiet -- data/afvalkalender.json; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
