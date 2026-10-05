@@ -1,0 +1,59 @@
+name: Omrin afvalkalender ophalen
+
+on:
+  schedule:
+    # Iedere dag om 05:00 UTC = 07:00 Nederlandse tijd in de zomer
+    - cron: "0 1 * * *"
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scrape-omrin:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository ophalen
+        uses: actions/checkout@v4
+
+      - name: Python installeren
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Dependencies installeren
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests pdfplumber
+
+      - name: Omrin kalender ophalen
+        env:
+          OMrin_ZIPCODE: "9251 LZ"
+          OMrin_HOUSENUMBER: "27"
+          OMrin_ADDITION: "a"
+          OMrin_YEAR: "2026"
+        run: |
+          python scrapers/omrin.py
+
+      - name: Gewijzigde bestanden controleren
+        id: changes
+        run: |
+          if git diff --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Wijzigingen committen
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add data/afvalkalender.json
+
+          git commit -m "Update Omrin afvalkalender"
+
+          git push
