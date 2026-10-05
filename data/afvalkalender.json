@@ -1,1 +1,11 @@
-
+{
+  "source": "https://www.omrin.nl/api/CalendarPdf?zipCode=9251%20LZ&houseNumber=27&addition=a&year=2026",
+  "year": 2026,
+  "address": {
+    "zipcode": "9251 LZ",
+    "house_number": "27",
+    "addition": "a"
+  },
+  "updated_at": "2026-10-05T16:43:40.741746Z",
+  "collections": {}
+}
